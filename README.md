@@ -26,7 +26,9 @@ Let's explore the Streams API which provides powerful declarative ways to proces
     1. [Cocurency in the Java Tutorial](https://docs.oracle.com/javase/tutorial/essential/concurrency/)
     2. [Pee-wee Herman's Rube Goldberg Machine](https://www.youtube.com/watch?v=KVdqwD_bcPs)
     3. [OK GO Rube Goldberg Machine](https://www.youtube.com/watch?v=qybUFnY7Y8w)
-
+2. [ENTRY 1: Understanding Streams and Setting Up Project](https://teamtreehouse.com/library/setting-up-the-project-4)
+    1. [Original Indeed Jobs GitHub Repo](https://github.com/treehouse-projects/java-fp-indeed-jobs)
+    2. [Learn more on Indeed Job Aggregator](http://www.indeed.com/)
 
 ## Parking Lot of this Course
 Here is some terms that hasn't fully explained from the previous sub course Java Functional Toolset:
