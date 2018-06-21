@@ -18,3 +18,22 @@ you would perform the following git command:
 
 `git checkout s1v4`
 
+# Course: Introduction to Functional Programming - Meet Streams
+Let's explore the Streams API which provides powerful declarative ways to process sequences of elements.
+
+## Teacher's Notes
+1. [ENTRY 1: Understanding Streams](https://teamtreehouse.com/library/understanding-streams)
+    1. [Cocurency in the Java Tutorial](https://docs.oracle.com/javase/tutorial/essential/concurrency/)
+    2. [Pee-wee Herman's Rube Goldberg Machine](https://www.youtube.com/watch?v=KVdqwD_bcPs)
+    3. [OK GO Rube Goldberg Machine](https://www.youtube.com/watch?v=qybUFnY7Y8w)
+
+
+## Parking Lot of this Course
+Here is some terms that hasn't fully explained from the previous sub course Java Functional Toolset:
+
+1. Pure
+2. Side Effects
+3. Higher Order Function
+4. Method Reference Inference
+5. Lazy
+6. Functional Composition
