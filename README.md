@@ -29,6 +29,9 @@ Let's explore the Streams API which provides powerful declarative ways to proces
 2. [ENTRY 1: Understanding Streams and Setting Up Project](https://teamtreehouse.com/library/setting-up-the-project-4)
     1. [Original Indeed Jobs GitHub Repo](https://github.com/treehouse-projects/java-fp-indeed-jobs)
     2. [Learn more on Indeed Job Aggregator](http://www.indeed.com/)
+3. [Entry 2: Filtering](https://teamtreehouse.com/library/filtering)
+    1.[Stream.filter Java Doc](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#filter-java.util.function.Predicate-)
+    
 
 ## Parking Lot of this Course
 Here is some terms that hasn't fully explained from the previous sub course Java Functional Toolset:
