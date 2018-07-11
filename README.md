@@ -31,7 +31,14 @@ Let's explore the Streams API which provides powerful declarative ways to proces
     2. [Learn more on Indeed Job Aggregator](http://www.indeed.com/)
 3. [Entry 2: Filtering](https://teamtreehouse.com/library/filtering)
     1.[Stream.filter Java Doc](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#filter-java.util.function.Predicate-)
-    
+4. [Entry 3: Collecting and Limiting](https://teamtreehouse.com/library/collecting-and-limiting)
+    1. Learn More: [Stream.limit Java Doc](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#limit-long-)
+    2. Learn More: [Stream Operation and Pipelines](https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html#StreamOps)
+    3. Intermediate operation are further divided into stateless and stateful operations. 
+    4. Stateless operations, such as filter and map, retain no state from previously seen element when processing a new 
+    element. Each element can be processed independently of operations on other elements.
+    5. Stateful operations, such as distinct and sorted, may incorporate state from previously seen elements when 
+    processing new elements.
 
 ## Parking Lot of this Course
 Here is some terms that hasn't fully explained from the previous sub course Java Functional Toolset:

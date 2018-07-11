@@ -4,66 +4,21 @@ import com.teamtreehouse.jobs.model.Job;
 import com.teamtreehouse.jobs.service.JobService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * [Entry 2: Filtering]
+ * [Entry 3: Collecting and Limiting]
  *
- * First we want to filter the job listing to find if there are any that located in Portland. First we will do it
- * imperatively and then we go using declarative methods.
+ * The previous imperative and declarative method used in entry 2 is looking similar. Now we need to see the real power
+ * of the declaraive method stream by solving more complicated problems.
  *
- * We will use the static void explore method to filter it. Please note that explore method has a List of Object Job
- * called jobs. This List is where we going to filter.
+ * Now instead of printing let's create a method that will returns the first three jobs in our list that are junior
+ * level jobs. We will make both imperative way and declarative way.
  *
- * Please note in the Run result the format is the result of @Override toString method (you can check in
- * com.teamtreehouse.jobs.model.Job)
- *
- * in order to keep record of how we do it imperatively we can Refactor the code that we use to filter imperatively into
- * a provate method that will be called by the explore method.
- *
- * On the other hand declaratively the Stream package has a method called filter. The documentation link is in the
- * README.
- *
- * It has to have a predicate which takes an item and returns boolean. So the way the filter method works is if the
- * predicate returns True, it will keep the item for further processing. If False it will skip to the next item.
- *
- * The item in our case will be a Job object called job. We use lambda thus it will figure out the type of the job.
- * Since we will just going to pass one parameter (which is job) we don't need parenthesis.
- *
- * Since the lambda knows that it is a predicate it will returns boolean thus we just need to specify a boolean
- * statement which in this case that job State equals "OR" AND job City equals "Portland".
- *
- * REMEMBER filter is an intermediate method. EAch call to these intermediate methods is going to return a stream, so
- * that we can chain it together and these get pretty long pretty quick. Thus please have some manners to reserves
- * ourselves from writing the intermidate methods in one line.
- *
- * In the end all intermediate stream methods need a closure or terminal methods. In our case the process of filtering
- * is followed and closed by printing all jobs that match the filter criteria. Thus our terminal method must do that!
- * println is most suitable for Each of filtered jobs! Oh great we can just use method reference since it was println!
- *
- * WAIT A MINUTE!: The declarative way is no shorter than the imperative one. Moreover we use AND (&&) to build our
- * boolean statement imperatively. While in declarative it seems we do two works by putting two filters in the stream.
- * Is it unnecessary? Well let's take a look
- *
- * this misconception is because we look at it in imperative way. That in the process int he boolean the Java will make
- * a List of all jobs that meets criteria and short circuit those whom failed to meet the first criteria. Thus in the
- * stream the biggest misconception is we will make a list of all data that meet first filter then put that list as input
- * for the second filter method. This is WRONG.
- *
- * The way we should see a stream is it will fetch Job object called job and turns it into a marble and put it into a
- * pipe stream. Thus it will be filtered by first filter. If it failed to pass that job marble will be discarded no need
- * to run second filter.
- *
- * If the marble does pass the first filter it will not be stopped there and gathered into a list of other jobs that
- * pass the first filter. Rather that job marble will instantly passed as the input for second filter. If it failed to
- * pass second filter it will be discarded but if it pass the second filter once again it will not be gathered first,
- * instead it will instantly being treated as input forEach method.
- *
- * Moreover, by using multiple filter intermediate methods we can just comment out the filters we want to omit
- * temporarily
- *
- * Then for the last method we will Refactor the code so that it will be recoreded as a private method that we can look
- * at it at anytime to see how it is being done declaratively
+ * In the declarative stream method we will filter the Job List then put a limit of the amount of jobs will be retained
+ * in the end the list will be collected into a List or as a List.
  * */
 public class App {
 
@@ -85,12 +40,66 @@ public class App {
   private static void explore(List<Job> jobs) {
     // Your amazing code below... filtering using imperative (refactored to be a private method)
 
-      /*filterPortlandJobsImperatively(jobs);*/
+      /*get 3 junior jobs imperatively*/
+      getThreeJuniorJobsImperatively(jobs).forEach(System.out::println);
 
-      // filtering jobs declaratively:
-
-      filterPortlandJobsDeclaratively(jobs);
+      /*get 3 junior jobs by stream*/
+      getThreeJuniorJobsStream(jobs).forEach(System.out::println);
   }
+
+  /**
+   * [Entry 3: Collecting and Limiting]
+   *
+   * This is how we do it imperatively:
+   * -> please remember we will return a List of Job from passed List of Job objects.
+   * */
+    private static List<Job> getThreeJuniorJobsImperatively(List<Job> jobs){
+        List<Job> juniorJobs = new ArrayList<>();
+
+        for (Job job : jobs){
+            String title = job.getTitle().toLowerCase(); // in case the title of the job is written with some capitals
+
+            // if the title of the job contains word "junior" or "jr" then put it into juniorJobs list
+
+            if (isJuniorJob(job)){
+                juniorJobs.add(job);
+
+                // if the number of jobs in junior jobs list is already three then break
+
+                if (juniorJobs.size() >= 3){
+                    break; // remember break exits if and for loops
+                }
+            }
+        }
+        return juniorJobs;
+    }
+
+    /**
+     * [Entry 3: Collecting and Limiting]
+     *
+     * Now let's use stream! Instead building a new List like we did in the imperative method above when we use stream
+     * they can make a new collection by themselves.
+     *
+     * To make this method simpler we will make additional boolean method to determine if a job is for junior or not.
+     * We can just use the imperative way of doing so by using the if statement logic.
+     * */
+    private static List<Job> getThreeJuniorJobsStream(List<Job> jobs){
+        return jobs.stream()
+                .filter(App::isJuniorJob) // this is a method reference to see if isJuniorJob is True
+                .limit(3) // this is intermediate method and it's lazy but its understand state of amount and can cuts
+                .collect(Collectors.toList()); // this is terminal method to end it by collecting into a List
+    }
+
+    /**
+     * [Entry 3: Collecting and Limiting]
+     *
+     * This additional method is part of the getThreeJuniorJobsStream  and getThreeJuniorJobsImperatively method above
+     * This method only determines if a Job object contains word "junior" or "jr" in its title.
+     * */
+    private static boolean isJuniorJob(Job job){
+        String title = job.getTitle().toLowerCase();
+        return title.contains("junior") || title.contains("jr");
+    }
 
   /**
    * Entry 2 Notes:
