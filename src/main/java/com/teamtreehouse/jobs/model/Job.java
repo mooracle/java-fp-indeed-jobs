@@ -96,4 +96,16 @@ public class Job {
     result = 31 * result + (date != null ? date.hashCode() : 0);
     return result;
   }
+
+  /**
+   * [Entry 4: Transforming with Map]
+   * This method is created later since we want to make caption created here so that the code needed to build a
+   * caption for each Job data is short
+   * */
+    public String getCaption() {
+    return String.format("%s is looking for a %s in %s",
+            getCompany(),
+            getTitle(),
+            getCity());
+    }
 }

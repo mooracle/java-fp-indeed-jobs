@@ -39,6 +39,9 @@ Let's explore the Streams API which provides powerful declarative ways to proces
     element. Each element can be processed independently of operations on other elements.
     5. Stateful operations, such as distinct and sorted, may incorporate state from previously seen elements when 
     processing new elements.
+5. [Entry 4: Transforming with Map](https://teamtreehouse.com/library/transforming-with-map)
+    1. Learn more [Stream.map JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#map-java.util.function.Function-)
+    2. Learn more [Method References Tutorial](https://docs.oracle.com/javase/tutorial/java/javaOO/methodreferences.html)
 
 ## Parking Lot of this Course
 Here is some terms that hasn't fully explained from the previous sub course Java Functional Toolset:
@@ -46,6 +49,7 @@ Here is some terms that hasn't fully explained from the previous sub course Java
 1. Pure
 2. Side Effects
 3. Higher Order Function
-4. Method Reference Inference
+4. Method Reference Inference: The concept of method reference which uses the instance of where the method is residing
+as the argument passed on in order for the method to run (see Entry 4 NOTE!)
 5. Lazy
 6. Functional Composition

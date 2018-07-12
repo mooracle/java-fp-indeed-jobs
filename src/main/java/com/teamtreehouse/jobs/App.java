@@ -9,16 +9,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * [Entry 3: Collecting and Limiting]
+ * [Entry 4: Transforming with Map]
  *
- * The previous imperative and declarative method used in entry 2 is looking similar. Now we need to see the real power
- * of the declaraive method stream by solving more complicated problems.
+ * Now up to Entry 3 we have the ability to take a collection of items and gather a portion of those into another
+ * collection. However, in real life we actually needing to do is collect our subset of items and then produce different
+ * representations of those same items.
  *
- * Now instead of printing let's create a method that will returns the first three jobs in our list that are junior
- * level jobs. We will make both imperative way and declarative way.
+ * For example maybe we want to populate a drop down list in an application, with limited groups of names. Maybe we
+ * want to produce some mastered detail representation on our webpage, we're showing a pginated list of items as links.
+ * Clicking that link will go to more detailed page.
  *
- * In the declarative stream method we will filter the Job List then put a limit of the amount of jobs will be retained
- * in the end the list will be collected into a List or as a List.
+ * Stream add some real power since instead of making a separate collection of the items, we can actually transform the
+ * item as it's passing through your functional pipeline.
+ *
+ * However, a bit of WARNING there will be a naming collision since the method that we're going to use on the stream is
+ * named Map. Please do not mistaken this with the more traditional keyword for key value data structure also called map
+ *
+ * Similar like how the filter used the predicate functional interface, map uses the function functional interface. The
+ * single abstract method is named Apply, has signature of takes single value and return a value.
+ *
+ * In this case we will modify how we display the jobs we search and compiled. This time we will format it to be
+ * easier to read since we want to give example of certain job type. This time we will give example of Junor jobs
+ * but with better format.
  * */
 public class App {
 
@@ -40,11 +52,65 @@ public class App {
   private static void explore(List<Job> jobs) {
     // Your amazing code below... filtering using imperative (refactored to be a private method)
 
-      /*get 3 junior jobs imperatively*/
-      getThreeJuniorJobsImperatively(jobs).forEach(System.out::println);
+      /*[Entry 4: Transforming with Map]*/
+      getCaptionImperatively(jobs).forEach(System.out::println);
 
-      /*get 3 junior jobs by stream*/
-      getThreeJuniorJobsStream(jobs).forEach(System.out::println);
+      getCaptionStream(jobs).forEach(System.out::println);
+  }
+
+  /**
+   * [Entry 4: Transforming with Map]
+   *
+   * This is basically similar with the getJuniorJobsImperatively so most of the component will be the same thus we
+   * can just copy it from it.
+   * */
+  private static List<String> getCaptionImperatively(List<Job> jobs){
+      List<String> captions = new ArrayList<>();
+
+      for (Job job : jobs){
+          String title = job.getTitle().toLowerCase(); // in case the title of the job is written with some capitals
+
+          // if the title of the job contains word "junior" or "jr" then put it into captions list
+
+          if (isJuniorJob(job)){
+              String caption = job.getCaption();
+              captions.add(caption);
+
+              // if the number of jobs in junior jobs list is already three then break
+
+              if (captions.size() >= 3){
+                  break; // remember break exits if and for loops
+              }
+          }
+      }
+      return captions;
+  }
+
+  /**
+   * [Entry 4: Transforming with Map]
+   *
+   * This is where we use Stream. We will use the result of the filter of the Junior jobs as we have in the entry 3
+   * below and then map it to make a List of formatted Strings.
+   *
+   * Thus basically this only adds map function and lambda function related to it to the stream limit and collect for
+   * entry 3.
+   *
+   * NOTE: (THIS IS METHOD REFERENCE INFERENCE!!)
+   * The method reference Job::getCaption does not take any parameter like App::isJuniorJob which takes Job object
+   * as parameter. How could this can work? The answer is it depends on the type of method. The App::isJuniorJob is
+   * a static while Job::getCaption is on the Job instance. We cannot run the getCaption method without any instance
+   * of Job object. The Java knows this thus any method reference that is referring to an instance method (like
+   * getCaption) as function that expects an argument that is THE INSTANCE of the type that has that method on it.
+   *
+   * This Job:: is always assuming a Job object is passed into it as argument. In this case a Job instance is run
+   * from the filter and then it becomes the argument to the map which runs the method reference Job::getCaption.
+   * */
+  private static List<String> getCaptionStream(List<Job> jobs) {
+      return jobs.stream()
+              .filter(App::isJuniorJob)
+              .map(Job::getCaption) // this method reference are substitute to lambda job -> job.getCaption()
+              .limit(3)
+              .collect(Collectors.toList());
   }
 
   /**
