@@ -42,6 +42,12 @@ Let's explore the Streams API which provides powerful declarative ways to proces
 5. [Entry 4: Transforming with Map](https://teamtreehouse.com/library/transforming-with-map)
     1. Learn more [Stream.map JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#map-java.util.function.Function-)
     2. Learn more [Method References Tutorial](https://docs.oracle.com/javase/tutorial/java/javaOO/methodreferences.html)
+6. [Entry 5: flatMap](https://teamtreehouse.com/library/flatmap)
+    1. Learn more [Arguments in the official tutorial](https://docs.oracle.com/javase/tutorial/java/javaOO/arguments.html)
+    search for varargs.
+    2. Learn more [Regular Expressions in Java workshop](https://teamtreehouse.com/library/regular-expressions-in-java)
+    3. Learn More [Regular Expression official tutorial](https://docs.oracle.com/javase/tutorial/essential/regex/pre_char_classes.html)
+    4. The Imperative Word Cloud Code is in the Teacher's Notes
 
 ## Parking Lot of this Course
 Here is some terms that hasn't fully explained from the previous sub course Java Functional Toolset:

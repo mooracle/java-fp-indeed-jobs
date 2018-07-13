@@ -5,7 +5,10 @@ import com.teamtreehouse.jobs.service.JobService;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,6 +35,15 @@ import java.util.stream.Stream;
  * In this case we will modify how we display the jobs we search and compiled. This time we will format it to be
  * easier to read since we want to give example of certain job type. This time we will give example of Junor jobs
  * but with better format.
+ *
+ * After seeing how the Stream.of and varargs in action we then will build a Word Cloud based on the different words
+ * in the snippet in the Job.java class.
+ *
+ * Note that this snippet contains what is needed for the job but only has partial amount of the whole words. This is
+ * because the API we are using wants us to come to their site for further information.
+ *
+ * Back to the Word cloud, we want to keep account of how many times each word appears across each of the 1000 jobs
+ * postings that we have.
  * */
 public class App {
 
@@ -54,14 +66,85 @@ public class App {
     // Your amazing code below... filtering using imperative (refactored to be a private method)
 
       /*[Entry 5: flatMap]
-      * we will make a stream over a Strings:
-      * */
-      Stream.of("hello", "this", "is", "a", "stream")
-              .forEach(System.out::println); // since it's a stream we can just follow up on them!
-      /*[Entry 5: flatMap]
-      So that is what's called static method that accepts varargs (endless amount of parameters as long as they are
-      all the same type)
+      Test the getSnippetWordCount
       */
+     getSnippetWordCountImperatively(jobs)
+             .forEach((key, value) -> System.out.printf("%s occurs %d times%n", key, value));
+
+      getSnippetWordCountsStream(jobs)
+              .forEach((key, value) -> System.out.printf("%s occurs %d times%n", key, value));
+  }
+
+  /**
+   * [Entry 5: flatMap]
+   *
+   * Now we will do get Snippet word count using stream
+   *
+   * remember we need to return a map amd the snippet is a sentence thus we need regex
+   *
+   * Therefore we will get 2 streams : 1. stream of jobs and 2 stream of words from the snippet. We need to flatten
+   * this out!
+   *
+   * So this is how this works. First we need to stream each job from List of Jobs. Then from each job we want to map
+   * job with its snippet.
+   *
+   * Then we goint to map again each job with words from it snippet (we split them using regex)
+   *
+   * Then we flatten it using flatMap which will create a stream of words (each word from a words)
+   *
+   * We must filter to ensure it it a word by measuring the length to be > 0
+   *
+   * Then if it is a word we will map each String word to the lowercase version of that word.
+   *
+   * After that we collect is as BiConsumer since we need to pair it as word and the counter of the word.
+   *
+   * NOTE:
+   * Here we use Function.identity to represent word that weill be counted using Collectors.counting. Plus we also use
+   * Collectors.groupingBy method to pair each word with the counter results. The Function.identity method is represents
+   * each word so that it does not have to use Lambda function word -> word which just an empty function that passed
+   * word and returns word.
+   * */
+  public static Map<String, Long> getSnippetWordCountsStream(List<Job> jobs){
+      return jobs.stream()
+              .map(Job::getSnippet)
+              .map(snippet -> snippet.split("\\W+"))
+              .flatMap(Stream::of) // this method reference subs Lambda: words -> Stream.of(words)
+              .filter(word -> word.length() >0)
+              .map(String::toLowerCase)
+              .collect(Collectors.groupingBy(
+                      Function.identity(), // this is the identity function
+                      Collectors.counting()
+              ));
+  }
+
+  /**
+   * [Entry 5: flatMap]
+   *
+   * This is where we want to make Map to gather cloud data on how many times a words in the snippet is used.
+   * This time imperatively.
+   *
+   * Since Snippet is a long sentence we need to split it into words using regular expression.
+   *
+   * Then after that we can map certain String (words and how many time it came up.
+   * */
+  public static Map<String, Long> getSnippetWordCountImperatively(List<Job> jobs){
+      Map<String, Long> wordCounts = new HashMap<>();
+
+      for (Job job : jobs){
+          String[] words = job.getSnippet().split("\\W+");
+          for (String word : words){
+              if (word.length() == 0){
+                  continue;
+              }
+              String lWord = word.toLowerCase();
+              Long count = wordCounts.get(lWord);
+              if (count == null){
+                  count = 0L;
+              }
+              wordCounts.put(lWord, ++count); // ++ count because it is pre-increment (it add the values before
+          }
+      }
+      return wordCounts;
   }
 
   /**
