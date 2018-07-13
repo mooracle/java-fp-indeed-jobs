@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * [Entry 4: Transforming with Map]
@@ -52,10 +53,15 @@ public class App {
   private static void explore(List<Job> jobs) {
     // Your amazing code below... filtering using imperative (refactored to be a private method)
 
-      /*[Entry 4: Transforming with Map]*/
-      getCaptionImperatively(jobs).forEach(System.out::println);
-
-      getCaptionStream(jobs).forEach(System.out::println);
+      /*[Entry 5: flatMap]
+      * we will make a stream over a Strings:
+      * */
+      Stream.of("hello", "this", "is", "a", "stream")
+              .forEach(System.out::println); // since it's a stream we can just follow up on them!
+      /*[Entry 5: flatMap]
+      So that is what's called static method that accepts varargs (endless amount of parameters as long as they are
+      all the same type)
+      */
   }
 
   /**
@@ -87,23 +93,22 @@ public class App {
   }
 
   /**
-   * [Entry 4: Transforming with Map]
+   * [Entry 5: flatMap]
    *
-   * This is where we use Stream. We will use the result of the filter of the Junior jobs as we have in the entry 3
-   * below and then map it to make a List of formatted Strings.
+   * Sometimes we will end up with a stream that returns a stream, flatMap helps you flatten our elements into a
+   * single stream.
    *
-   * Thus basically this only adds map function and lambda function related to it to the stream limit and collect for
-   * entry 3.
+   * In this session we need to learn how to make a stream from objects that aren't in collections. It's really
+   * straightforward there is a method on stream class called OF.
    *
-   * NOTE: (THIS IS METHOD REFERENCE INFERENCE!!)
-   * The method reference Job::getCaption does not take any parameter like App::isJuniorJob which takes Job object
-   * as parameter. How could this can work? The answer is it depends on the type of method. The App::isJuniorJob is
-   * a static while Job::getCaption is on the Job instance. We cannot run the getCaption method without any instance
-   * of Job object. The Java knows this thus any method reference that is referring to an instance method (like
-   * getCaption) as function that expects an argument that is THE INSTANCE of the type that has that method on it.
+   * However, although we can create a stream upon a common object we will run into a common problem as well. When we
+   * try to map at them and in the end it end up we are pushing a stream through a stream and it will be awkward.
    *
-   * This Job:: is always assuming a Job object is passed into it as argument. In this case a Job instance is run
-   * from the filter and then it becomes the argument to the map which runs the method reference Job::getCaption.
+   * This is where a concept in programming called flattening comes to use. Flattening works if we have a List of List
+   * since it is hard to work with by indexing the members of the List inside the List. We can flatten them so that
+   * the members of the List inside the List is become one as member of the List.
+   *
+   *
    * */
   private static List<String> getCaptionStream(List<Job> jobs) {
       return jobs.stream()
