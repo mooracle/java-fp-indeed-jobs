@@ -10,40 +10,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * [Entry 4: Transforming with Map]
+ * [Entry 6: Reduction Operation]
  *
- * Now up to Entry 3 we have the ability to take a collection of items and gather a portion of those into another
- * collection. However, in real life we actually needing to do is collect our subset of items and then produce different
- * representations of those same items.
+ * A common task in programming is to process an entire list of elements to produce a single value. For instance we
+ * may have a list of numbers and we want to know what they will add up to. This process will return a single number.
  *
- * For example maybe we want to populate a drop down list in an application, with limited groups of names. Maybe we
- * want to produce some mastered detail representation on our webpage, we're showing a pginated list of items as links.
- * Clicking that link will go to more detailed page.
+ * The main point here is we can reduce a collection of things in to a single value. Unfortunately the job postings we
+ * have been working with doesn't have salary information. So we need to find something else to count.
  *
- * Stream add some real power since instead of making a separate collection of the items, we can actually transform the
- * item as it's passing through your functional pipeline.
- *
- * However, a bit of WARNING there will be a naming collision since the method that we're going to use on the stream is
- * named Map. Please do not mistaken this with the more traditional keyword for key value data structure also called map
- *
- * Similar like how the filter used the predicate functional interface, map uses the function functional interface. The
- * single abstract method is named Apply, has signature of takes single value and return a value.
- *
- * In this case we will modify how we display the jobs we search and compiled. This time we will format it to be
- * easier to read since we want to give example of certain job type. This time we will give example of Junor jobs
- * but with better format.
- *
- * After seeing how the Stream.of and varargs in action we then will build a Word Cloud based on the different words
- * in the snippet in the Job.java class.
- *
- * Note that this snippet contains what is needed for the job but only has partial amount of the whole words. This is
- * because the API we are using wants us to come to their site for further information.
- *
- * Back to the Word cloud, we want to keep account of how many times each word appears across each of the 1000 jobs
- * postings that we have.
+ * We can actually have more specialized streams. One is called intStream. This basically process stream of integers.
+ * we can manipulate the data in the stream such as filter just like in ordinary stream, but we can also put operations
+ * like we do for common integers such as sum.
  * */
 public class App {
 
@@ -65,14 +46,25 @@ public class App {
   private static void explore(List<Job> jobs) {
     // Your amazing code below... filtering using imperative (refactored to be a private method)
 
-      /*[Entry 5: flatMap]
-      Test the getSnippetWordCount
-      */
-     getSnippetWordCountImperatively(jobs)
-             .forEach((key, value) -> System.out.printf("%s occurs %d times%n", key, value));
+      /*[Entry 6: Reduction Operation]
+      * testing IntStream (JavaDoc link in the README)
+      * we will make stream of integers (1, 2, 3, 4) and sum all numbers smaller than 4
+      * */
+      System.out.println(
+              IntStream.of(1, 2, 3, 4)
+              .filter(i-> i<4)
+              .sum()
+      );
 
-      getSnippetWordCountsStream(jobs)
-              .forEach((key, value) -> System.out.printf("%s occurs %d times%n", key, value));
+      /*[Entry 6: Reduction Operation]
+      * Now we will meet Optional which will give alternative format results and also just in case the Stream is
+      * actually empty. Thus for instance an Average will give (commonly) Optional double to incorporate decimals and
+      * also to anticipate null pointer if the Stream of integers is empty.
+      * */
+      System.out.println(
+              IntStream.of(1, 2, 3, 4)
+              .average()
+      );
   }
 
   /**
