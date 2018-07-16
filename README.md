@@ -48,13 +48,19 @@ Let's explore the Streams API which provides powerful declarative ways to proces
     2. Learn more [Regular Expressions in Java workshop](https://teamtreehouse.com/library/regular-expressions-in-java)
     3. Learn More [Regular Expression official tutorial](https://docs.oracle.com/javase/tutorial/essential/regex/pre_char_classes.html)
     4. The Imperative Word Cloud Code is in the Teacher's Notes
+    
+# Course: Introduction to Functional Programming - Reduction and Aggregation
+1. [Entry 6: Reduction Operation](https://teamtreehouse.com/library/reduction-operations)
+    1. Learn more: [Comparator JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html)
+    2. Learn more: [IntStream JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html)
 
 ## Parking Lot of this Course
 Here is some terms that hasn't fully explained from the previous sub course Java Functional Toolset:
 
 1. Pure
 2. Side Effects
-3. Higher Order Function
+3. Higher Order Function: The function or method that takes another function as input and returns another function to 
+be used by other function. Implementation see com/teamtreehouse/jobs/App.java
 4. Method Reference Inference: The concept of method reference which uses the instance of where the method is residing
 as the argument passed on in order for the method to run (see Entry 4 NOTE!)
 5. Lazy

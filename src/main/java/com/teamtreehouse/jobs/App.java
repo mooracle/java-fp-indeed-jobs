@@ -4,10 +4,7 @@ import com.teamtreehouse.jobs.model.Job;
 import com.teamtreehouse.jobs.service.JobService;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -46,24 +43,43 @@ public class App {
   private static void explore(List<Job> jobs) {
     // Your amazing code below... filtering using imperative (refactored to be a private method)
 
-      /*[Entry 6: Reduction Operation]
-      * testing IntStream (JavaDoc link in the README)
-      * we will make stream of integers (1, 2, 3, 4) and sum all numbers smaller than 4
-      * */
+     /*[Entry 6: Reduction Operation]
+     * So what we have is data on Company Names which Open Job recruitments. We can calculate the average number of
+     * characters in the company Name. To do this we need to stream all (map) of the Job's Company Name and then find
+     * out the length of it
+     *
+     * Then we must change the mapping into Jobs to the length of company name (which is an integer) using MapToInt
+     * */
       System.out.println(
-              IntStream.of(1, 2, 3, 4)
-              .filter(i-> i<4)
-              .sum()
+         jobs.stream()
+            .map(Job::getCompany)
+            .mapToInt(String::length) //this is the part of the converting the map stream from Job to integers
+            .average()
       );
 
       /*[Entry 6: Reduction Operation]
-      * Now we will meet Optional which will give alternative format results and also just in case the Stream is
-      * actually empty. Thus for instance an Average will give (commonly) Optional double to incorporate decimals and
-      * also to anticipate null pointer if the Stream of integers is empty.
+      * Now let's find out what is the longest company name*/
+      System.out.println(
+              jobs.stream()
+              .map(Job::getCompany)
+              .mapToInt(String::length)
+              .max()
+      );
+
+      /*[Entry 6: Reduction Operation]
+      * Now we are curious what is the company who has the longest name. We can seek it using the max() also. However,
+      * in the integer case the compiler knows how to compare the values of the integers to find out which is the
+      * max value.
+      *
+      * On the Job object stream we need to define the comparator for the compiler. What we want to use as the basis
+      * of comparison to determine the max value. In this case it is the String.length of Job.getCompanyName which
+      * already mapped before the max(). Thus we need to define the the Comparator interface using the comparingInt
+      * method from the Comparator interface (Comparator.comparingInt)
       * */
       System.out.println(
-              IntStream.of(1, 2, 3, 4)
-              .average()
+              jobs.stream()
+              .map(Job::getCompany)
+              .max(Comparator.comparingInt(String::length)) //This comparingInt is higher order function -> README!
       );
   }
 
