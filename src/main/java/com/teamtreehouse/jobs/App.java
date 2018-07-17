@@ -11,17 +11,25 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * [Entry 6: Reduction Operation]
+ * Entry 7: Optionals]
  *
- * A common task in programming is to process an entire list of elements to produce a single value. For instance we
- * may have a list of numbers and we want to know what they will add up to. This process will return a single number.
+ * Optionals help express the absence of presence of a value
  *
- * The main point here is we can reduce a collection of things in to a single value. Unfortunately the job postings we
- * have been working with doesn't have salary information. So we need to find something else to count.
+ * Null pointer exceptions happen when we attempt to access a property or a method on an object and that object is in
+ * fact not there it's null.
  *
- * We can actually have more specialized streams. One is called intStream. This basically process stream of integers.
- * we can manipulate the data in the stream such as filter just like in ordinary stream, but we can also put operations
- * like we do for common integers such as sum.
+ * So how do we know that the value might not be there? Wellm the simples answer is we actually don't. We need to trust
+ * the API designer won't return a null or we have to be overprotective.
+ *
+ * Now because some of these terminal stream operations are known to maybe not return a value, Java 8 introduced a new
+ * class called optional. They are intended to be used as return values for methods only. They represent the presence of
+ * a value or the absence of a value.
+ *
+ * This is actually a common concept in other programming languages usually it's known as an option type. More
+ * frequently known as maybe type in functional programming.
+ *
+ * By getting our hands on one of these optionals, we know very clearly that there's a possibility that maybe there
+ * isn't a value for us to access.
  * */
 public class App {
 
@@ -43,47 +51,52 @@ public class App {
   private static void explore(List<Job> jobs) {
     // Your amazing code below... filtering using imperative (refactored to be a private method)
 
-     /*[Entry 6: Reduction Operation]
-     * So what we have is data on Company Names which Open Job recruitments. We can calculate the average number of
-     * characters in the company Name. To do this we need to stream all (map) of the Job's Company Name and then find
-     * out the length of it
+     /*Entry 7: Optionals]
+     * Now let's find out how to use optionals.
      *
-     * Then we must change the mapping into Jobs to the length of company name (which is an integer) using MapToInt
+     * We will make a google I am feeling lucky search style that only returns first finding in the search process.
      * */
-      System.out.println(
-         jobs.stream()
-            .map(Job::getCompany)
-            .mapToInt(String::length) //this is the part of the converting the map stream from Job to integers
-            .average()
-      );
+      String searchTerm = "trampoline";
+      Optional<Job> foundJob = luckySearchJob(jobs, searchTerm);
 
-      /*[Entry 6: Reduction Operation]
-      * Now let's find out what is the longest company name*/
-      System.out.println(
-              jobs.stream()
-              .map(Job::getCompany)
-              .mapToInt(String::length)
-              .max()
-      );
-
-      /*[Entry 6: Reduction Operation]
-      * Now we are curious what is the company who has the longest name. We can seek it using the max() also. However,
-      * in the integer case the compiler knows how to compare the values of the integers to find out which is the
-      * max value.
+      /*Entry 7: Optionals]
+      * why does foundJob is an Optional? Well because we need to know if it's in fact present.
       *
-      * On the Job object stream we need to define the comparator for the compiler. What we want to use as the basis
-      * of comparison to determine the max value. In this case it is the String.length of Job.getCompanyName which
-      * already mapped before the max(). Thus we need to define the the Comparator interface using the comparingInt
-      * method from the Comparator interface (Comparator.comparingInt)
+      * We also can test if indeed the foundJob is value is present
+      *
+      * and if it is not present it will do nothing and we avert the not exist or null pointer exceptions!
+      *
+      * Or we can get it to print "No Jobs found!" using a more declarative approach. (Not the common if then else
+      * method used in imperative approach) like in the example below:
       * */
-      System.out.println(
-              jobs.stream()
-              .map(Job::getCompany)
-              .max(Comparator.comparingInt(String::length)) //This comparingInt is higher order function -> README!
-      );
+      /*if (foundJob.isPresent()) {// this is a must if you want to process it imperatively!!
+          ; //remember foundJob is an instance of Optional
+          System.out.println(foundJob.get().getTitle()); //this ,get() will ommit the wrapping Optiona[Results]
+      } else {
+          System.out.println("No Jobs found");
+      }
+
+      here is the declarative way to do it:
+      */
+      System.out.println(foundJob
+        .map(Job::getTitle)
+        .orElse("No Jobs found"));
+
+      /*Entry 7: Optionals]
+      * Remember if you are using Optionals and calling Get yourself imperatively always make sure to check isPresent.*/
   }
 
   /**
+   * Entry 7: Optionals]
+   * This is the method used for finding the lucky Search style for the jobs
+   * */
+    private static Optional<Job> luckySearchJob(List<Job> jobs, String searchTerm) {
+        return jobs.stream() //watch this is where Optional is used
+                  .filter(job -> job.getTitle().contains(searchTerm))
+                  .findFirst();
+    }
+
+    /**
    * [Entry 5: flatMap]
    *
    * Now we will do get Snippet word count using stream

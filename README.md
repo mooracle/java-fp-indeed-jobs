@@ -53,6 +53,9 @@ Let's explore the Streams API which provides powerful declarative ways to proces
 1. [Entry 6: Reduction Operation](https://teamtreehouse.com/library/reduction-operations)
     1. Learn more: [Comparator JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/util/Comparator.html)
     2. Learn more: [IntStream JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html)
+2. [Entry 7: Optionals](https://teamtreehouse.com/library/optionals)
+    1. Learn more: [Option type (general)](https://en.wikipedia.org/wiki/Option_type)
+    2. Learn more [Optional Tips and Tricks - Pro Workshop](https://teamtreehouse.com/library/optionals-tips-and-tricks)
 
 ## Parking Lot of this Course
 Here is some terms that hasn't fully explained from the previous sub course Java Functional Toolset:
