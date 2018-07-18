@@ -11,25 +11,14 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * Entry 7: Optionals]
+ * [Entry 8: Ranges]
  *
- * Optionals help express the absence of presence of a value
+ * Up to this point we have learn some ways to avoid using iteration in our code. However, one thing that the
+ * declarative ways of coding has not shown us so far is on how to keep index. In the for loops iteration we can keep
+ * track if the index for each loop.
  *
- * Null pointer exceptions happen when we attempt to access a property or a method on an object and that object is in
- * fact not there it's null.
- *
- * So how do we know that the value might not be there? Wellm the simples answer is we actually don't. We need to trust
- * the API designer won't return a null or we have to be overprotective.
- *
- * Now because some of these terminal stream operations are known to maybe not return a value, Java 8 introduced a new
- * class called optional. They are intended to be used as return values for methods only. They represent the presence of
- * a value or the absence of a value.
- *
- * This is actually a common concept in other programming languages usually it's known as an option type. More
- * frequently known as maybe type in functional programming.
- *
- * By getting our hands on one of these optionals, we know very clearly that there's a possibility that maybe there
- * isn't a value for us to access.
+ * Now we will learn how to keep tracking index and more using stream. We will make a console style menu which need to
+ * provide number as index for the users to choose by input the index number.
  * */
 public class App {
 
@@ -51,42 +40,56 @@ public class App {
   private static void explore(List<Job> jobs) {
     // Your amazing code below... filtering using imperative (refactored to be a private method)
 
-     /*Entry 7: Optionals]
-     * Now let's find out how to use optionals.
-     *
-     * We will make a google I am feeling lucky search style that only returns first finding in the search process.
-     * */
-      String searchTerm = "trampoline";
-      Optional<Job> foundJob = luckySearchJob(jobs, searchTerm);
-
-      /*Entry 7: Optionals]
-      * why does foundJob is an Optional? Well because we need to know if it's in fact present.
+      /*[Entry 8: Ranges]
+      * We will make a list of distinct companies and have user choose one.
+      * the options for companies must be distinct meaning the same company name cannot appears twice.
       *
-      * We also can test if indeed the foundJob is value is present
-      *
-      * and if it is not present it will do nothing and we avert the not exist or null pointer exceptions!
-      *
-      * Or we can get it to print "No Jobs found!" using a more declarative approach. (Not the common if then else
-      * method used in imperative approach) like in the example below:
+      * Also to make user easy to search we will sort the company name (alphabetically?)
+      * Thus first we make a list of companies distinctively and sorted alphabetically
       * */
-      /*if (foundJob.isPresent()) {// this is a must if you want to process it imperatively!!
-          ; //remember foundJob is an instance of Optional
-          System.out.println(foundJob.get().getTitle()); //this ,get() will ommit the wrapping Optiona[Results]
-      } else {
-          System.out.println("No Jobs found");
-      }
+      List<String> companies = jobs.stream()
+              .map(Job::getCompany)
+              .distinct()
+              .sorted()
+              .collect(Collectors.toList());
 
-      here is the declarative way to do it:
-      */
-      System.out.println(foundJob
-        .map(Job::getTitle)
-        .orElse("No Jobs found"));
+      /*[Entry 8: Ranges]
+      * we display imperatively using this method:
+      * */
+      displayCompaniesMenuImperatively(companies);
+      System.out.println();
 
-      /*Entry 7: Optionals]
-      * Remember if you are using Optionals and calling Get yourself imperatively always make sure to check isPresent.*/
+      /*[Entry 8: Ranges]
+      * we display declaratively using Range:
+      * */
+      displayCompaniesMenuRange(companies);
+
+
   }
 
-  /**
+    private static void displayCompaniesMenuRange(List<String> companies) {
+        /*[Entry 8: Ranges]
+        * As for the declarative way we follow the same principles but we are now using what is called range.
+        * */
+        IntStream.range(0, 20) //<- range means 0 < i < 20; while rangeClose will make it 0 < i <= 20
+                .mapToObj(i -> String.format("%d. %s", // same as mapToInt we can reverse int back to object (job)
+                        i + 1, companies.get(i)))
+        .forEach(System.out::println);
+    }
+
+    private static void displayCompaniesMenuImperatively(List<String> companies) {
+        /*[Entry 8: Ranges]
+        * After we make a List of all companies in the List we will make the menu for the users to choose from.
+        * we will make a list of let say 20 companies.
+        *
+        * We do this imperatively first
+        * */
+        for (int i = 0; i < 20; i++) {
+            System.out.printf("%d. %s %n", i + 1, companies.get(i));
+        }
+    }
+
+    /**
    * Entry 7: Optionals]
    * This is the method used for finding the lucky Search style for the jobs
    * */

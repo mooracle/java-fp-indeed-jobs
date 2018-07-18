@@ -56,6 +56,11 @@ Let's explore the Streams API which provides powerful declarative ways to proces
 2. [Entry 7: Optionals](https://teamtreehouse.com/library/optionals)
     1. Learn more: [Option type (general)](https://en.wikipedia.org/wiki/Option_type)
     2. Learn more [Optional Tips and Tricks - Pro Workshop](https://teamtreehouse.com/library/optionals-tips-and-tricks)
+3. [Entry 8: Ranges](https://teamtreehouse.com/library/ranges)
+    1. Learn more: [Stream.distinct JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#distinct--)
+    2. Learn more: [Stream.sorted JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#sorted--)
+    3. Learn more: [IntStream.range JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html#range-int-int-)
+    
 
 ## Parking Lot of this Course
 Here is some terms that hasn't fully explained from the previous sub course Java Functional Toolset:
