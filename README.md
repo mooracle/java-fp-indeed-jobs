@@ -60,7 +60,7 @@ Let's explore the Streams API which provides powerful declarative ways to proces
     1. Learn more: [Stream.distinct JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#distinct--)
     2. Learn more: [Stream.sorted JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/util/stream/Stream.html#sorted--)
     3. Learn more: [IntStream.range JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/util/stream/IntStream.html#range-int-int-)
-    
+4. [Entry 9: Infinite Stream](https://teamtreehouse.com/library/infinite-streams)
 
 ## Parking Lot of this Course
 Here is some terms that hasn't fully explained from the previous sub course Java Functional Toolset:

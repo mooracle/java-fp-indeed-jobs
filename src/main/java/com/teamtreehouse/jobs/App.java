@@ -11,14 +11,9 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
- * [Entry 8: Ranges]
- *
- * Up to this point we have learn some ways to avoid using iteration in our code. However, one thing that the
- * declarative ways of coding has not shown us so far is on how to keep index. In the for loops iteration we can keep
- * track if the index for each loop.
- *
- * Now we will learn how to keep tracking index and more using stream. We will make a console style menu which need to
- * provide number as index for the users to choose by input the index number.
+ * [Entry 9: Infinite Stream]
+ * in the standard ranges we use standard increment that represented imperatively as i++ which increment by 1 point.
+ * However we can use more than 1 as increment and it's called as stepping.
  * */
 public class App {
 
@@ -53,18 +48,37 @@ public class App {
               .sorted()
               .collect(Collectors.toList());
 
-      /*[Entry 8: Ranges]
-      * we display imperatively using this method:
+      /*[Entry 9: Infinite Stream]
+      * Let's start by answering how many companies there is in the job listing.
+      * We still need the Entry 8 List of companies to do this
       * */
-      displayCompaniesMenuImperatively(companies);
-      System.out.println();
+      System.out.printf("number of companies: %d %n", companies.size());//acording to this code there are 657 companies
 
-      /*[Entry 8: Ranges]
-      * we display declaratively using Range:
+      /*[Entry 9: Infinite Stream]
+      * There are too many companies to display. We want to display every 20th companies in the steps.
+      *
+      * To do this we need to determine the pageSize which in this case will be 20
       * */
-      displayCompaniesMenuRange(companies);
+      int pageSize = 20;
 
+      /*[Entry 9: Infinite Stream]
+      * Then lets calculate how many pages that will be if we only fetch every 20th companies sorted in a List
+      * */
+      int numPages = companies.size() / pageSize;
+      System.out.printf("the number of pages: %d %n", numPages);
 
+      /*[Entry 9: Infinite Stream]
+      * So to do this there is a method called IntStream.iterate which will gave infinite Streams that it will take the
+      * last value and will run it into a function. Thus first it will take a starting point or in this method it's
+      * called as seed. Then it will take the seed into a function to return a new number and then that new number will
+      * be the next seed to be runs through the same function and so on
+      *
+      * As the name implies it will be infinite loop unless we give it a limit in this case the numPage it needs to run
+      * */
+      IntStream.iterate(0, i -> i + pageSize)
+              .mapToObj(i -> String.format("%d. %s", i + 1, companies.get(i)))
+              .limit(numPages + 1) //<- this is the limit I put plus one since it limit < numPages not <= numPages!
+              .forEach(System.out::println);
   }
 
     private static void displayCompaniesMenuRange(List<String> companies) {
