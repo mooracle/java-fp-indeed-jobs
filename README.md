@@ -84,3 +84,6 @@ as argument as stated in their declaration.
 as the argument passed on in order for the method to run (see Entry 4 NOTE!)
 5. Lazy
 6. Functional Composition
+    1. Learn more: [LocalDateTime JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html)
+    2. Learn more: [DateTimeFormatter JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html)
+    

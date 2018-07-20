@@ -4,6 +4,8 @@ import com.teamtreehouse.jobs.model.Job;
 import com.teamtreehouse.jobs.service.JobService;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -36,38 +38,49 @@ public class App {
   private static void explore(List<Job> jobs) {
     // Your amazing code below... filtering using imperative (refactored to be a private method)
 
-      /*Let's practice higher order functions and function composition
-      * Let say I want to get e mail for first job in california (CA) the system got
-      *
-      * First we need to make a method that will taking care of e-mailing if this is happening
+      /*to change the String date format into recognizeable machine laguage we need to build a function that will runs
+      * a parser. More on this in the LocalDateTime javaDoc link in the README
       * */
-      Job firstOne = jobs.get(0);
-      System.out.println("First Job :" + firstOne);
-      Predicate<Job> caJobChecker = job -> job.getState().equals("CA");
-      emailIfMatches(firstOne, caJobChecker);
+      Function<String, LocalDateTime> indeedDateConverter =
+              dateString -> LocalDateTime.parse(
+                      dateString, DateTimeFormatter.RFC_1123_DATE_TIME);
 
-      /*Since the first job is not in CA the email will not be sent
-      * We need to find a job from CA and make the system sent e-mail.
+      /*This lambda dateString is fed as argument in lambda function to launch LocalDateTime.parse (static method)
+      * which does not need instantiation we can just use it as LocalDateTime.parse
       * */
-      Job caJob = jobs.stream()
-              .filter(caJobChecker)
-              .findFirst()
-              .orElseThrow(NullPointerException::new);
 
-      emailIfMatches(caJob, caJobChecker);//<- this will get an e mail
-
-      /*we want to experiment new code that add predicate or in this case boolean statement to limit the e mail about
-      * the job only for junior job
+      /*Now we need to build a function that will transform the format String of the Date and Time displayed at the
+      * Job data
       *
-      * we will use the Predicate.and method which provide similar effect on using AND logical operator on two statement
-      * This is Functional composition
+      * Remember the client asked for M / d / YY format the last time. Thus we will use the DateTimeFormatter method
+      * called .ofPattern (search more on this) to convert the date back into String using the intended pattern format:
       * */
-      emailIfMatches(caJob, caJobChecker.and(App::isJuniorJob));
+      Function<LocalDateTime, String> siteDateStringConverter =
+              date -> date.format(DateTimeFormatter.ofPattern("M / d / YY"));
 
-      /*remember we already built a method in this app to test if a job is a junior job. We can just call it using
-      * the method reference.
+      /*This time it is more on Function Composition
       *
-      * Remeber this will not sent any e mail since the first job found is a senior job*/
+      * We will make a Date format of the job data. The client want us to take this format M / d / YY.
+      * Let's see how the date is curently displayed: Mon, 13 Mar 2017 22:05:11 GMT
+      *
+      * In order to change that format we already preparing a Function object above to convert the String Time format
+      * to LocalDateFormat type of object. Thus we can just map it to Job. Remember the Lambda already defined in the
+      * Function indeedDateConverter above.
+      *
+      * Now that we already define a Function siteDateStringConverter we can map it to change the mapped Date and Time
+      * to produce String Date and Time as we intended. Since Function just like Predicate can be composed also thus we
+      * will use it.
+      *
+      * We need to utilize the andThen method to reduce the need of making too many map and make it a new separate
+      * Function!
+      * */
+      Function<String, String> indeedToSiteDateStringConverter = indeedDateConverter.andThen(siteDateStringConverter);
+      jobs.stream()
+              .map(Job::getDateTimeString)
+              .map(indeedToSiteDateStringConverter)
+              //.map(siteDateStringConverter)
+              .limit(5)
+              .forEach(System.out::println);
   }
 
   /**
