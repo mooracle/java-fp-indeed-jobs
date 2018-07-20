@@ -6,6 +6,7 @@ import com.teamtreehouse.jobs.service.JobService;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -35,29 +36,49 @@ public class App {
   private static void explore(List<Job> jobs) {
     // Your amazing code below... filtering using imperative (refactored to be a private method)
 
-      /*[Entry 8: Ranges]
-      * We will make a list of distinct companies and have user choose one.
-      * the options for companies must be distinct meaning the same company name cannot appears twice.
+      /*Let's practice higher order functions and function composition
+      * Let say I want to get e mail for first job in california (CA) the system got
       *
-      * Also to make user easy to search we will sort the company name (alphabetically?)
-      * Thus first we make a list of companies distinctively and sorted alphabetically
+      * First we need to make a method that will taking care of e-mailing if this is happening
       * */
-      List<String> companies = jobs.stream()
-              .map(Job::getCompany)
-              .distinct()
-              .sorted()
-              .collect(Collectors.toList());
+      Job firstOne = jobs.get(0);
+      System.out.println("First Job :" + firstOne);
+      Predicate<Job> caJobChecker = job -> job.getState().equals("CA");
+      emailIfMatches(firstOne, caJobChecker);
 
-      /*Parking Lot: Side Effect:
-      * Let's learn on how to use peek! it basically like for each but a median function rather than terminal function.
-      * and remember Stream runs in paralel thus it will print all companies started with N twice in adjacent!
-      *
-      * Remember peek are Higher order function which accept other function as argument.
+      /*Since the first job is not in CA the email will not be sent
+      * We need to find a job from CA and make the system sent e-mail.
       * */
-      companies.stream()
-              .peek(company -> System.out.println("=========>" + company))
-              .filter(company -> company.startsWith("N"))
-              .forEach(System.out::println);
+      Job caJob = jobs.stream()
+              .filter(caJobChecker)
+              .findFirst()
+              .orElseThrow(NullPointerException::new);
+
+      emailIfMatches(caJob, caJobChecker);//<- this will get an e mail
+
+      /*we want to experiment new code that add predicate or in this case boolean statement to limit the e mail about
+      * the job only for junior job
+      *
+      * we will use the Predicate.and method which provide similar effect on using AND logical operator on two statement
+      * This is Functional composition
+      * */
+      emailIfMatches(caJob, caJobChecker.and(App::isJuniorJob));
+
+      /*remember we already built a method in this app to test if a job is a junior job. We can just call it using
+      * the method reference.
+      *
+      * Remeber this will not sent any e mail since the first job found is a senior job*/
+  }
+
+  /**
+   * Parking slot
+   * This method is needed for the usage of function composition
+   * If the condition determined by the Predicate<Job> checker is TRUE then it will send email
+   * */
+  public static void emailIfMatches(Job job, Predicate<Job> checker){
+      if (checker.test(job)){
+          System.out.println("I am sending an email about: " + job);
+      }
   }
 
     private static void displayCompaniesMenuRange(List<String> companies) {

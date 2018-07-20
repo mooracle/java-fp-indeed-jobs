@@ -74,7 +74,12 @@ Here is some terms that hasn't fully explained from the previous sub course Java
 2. Side Effects
     1. Learn more: [idempotence](https://en.wikipedia.org/wiki/Idempotence)
 3. Higher Order Function: The function or method that takes another function as input and returns another function to 
-be used by other function. Implementation see com/teamtreehouse/jobs/App.java
+be used by other function. Implementation see com/teamtreehouse/jobs/App.java. Many methods of Stream accepts function
+as argument as stated in their declaration.
+    1. Learn more: [Predicate JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html)
+    flip to the default methods tab.
+    2. Learn more: [Higher order function (general)](https://en.wikipedia.org/wiki/Higher-order_function)
+    3. Search term: open close principle of software design: classes should open for extenstion; close for modification
 4. Method Reference Inference: The concept of method reference which uses the instance of where the method is residing
 as the argument passed on in order for the method to run (see Entry 4 NOTE!)
 5. Lazy
