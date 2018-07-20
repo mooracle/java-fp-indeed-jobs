@@ -66,7 +66,13 @@ Let's explore the Streams API which provides powerful declarative ways to proces
 Here is some terms that hasn't fully explained from the previous sub course Java Functional Toolset:
 
 1. Pure
+    1. Learn more: [Referential Transparency](https://en.wikipedia.org/wiki/Referential_transparency)
+    2. Learn more: [Memoization](https://en.wikipedia.org/wiki/Memoization)
+    3. Read this article: [State monad](https://en.wikipedia.org/wiki/Monad_(functional_programming)#State_monads)
+    4. Given the same input, a pure function will always produce the same output
+    5. Pure function produce no side effects
 2. Side Effects
+    1. Learn more: [idempotence](https://en.wikipedia.org/wiki/Idempotence)
 3. Higher Order Function: The function or method that takes another function as input and returns another function to 
 be used by other function. Implementation see com/teamtreehouse/jobs/App.java
 4. Method Reference Inference: The concept of method reference which uses the instance of where the method is residing

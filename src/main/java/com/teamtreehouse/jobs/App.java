@@ -48,36 +48,15 @@ public class App {
               .sorted()
               .collect(Collectors.toList());
 
-      /*[Entry 9: Infinite Stream]
-      * Let's start by answering how many companies there is in the job listing.
-      * We still need the Entry 8 List of companies to do this
-      * */
-      System.out.printf("number of companies: %d %n", companies.size());//acording to this code there are 657 companies
-
-      /*[Entry 9: Infinite Stream]
-      * There are too many companies to display. We want to display every 20th companies in the steps.
+      /*Parking Lot: Side Effect:
+      * Let's learn on how to use peek! it basically like for each but a median function rather than terminal function.
+      * and remember Stream runs in paralel thus it will print all companies started with N twice in adjacent!
       *
-      * To do this we need to determine the pageSize which in this case will be 20
+      * Remember peek are Higher order function which accept other function as argument.
       * */
-      int pageSize = 20;
-
-      /*[Entry 9: Infinite Stream]
-      * Then lets calculate how many pages that will be if we only fetch every 20th companies sorted in a List
-      * */
-      int numPages = companies.size() / pageSize;
-      System.out.printf("the number of pages: %d %n", numPages);
-
-      /*[Entry 9: Infinite Stream]
-      * So to do this there is a method called IntStream.iterate which will gave infinite Streams that it will take the
-      * last value and will run it into a function. Thus first it will take a starting point or in this method it's
-      * called as seed. Then it will take the seed into a function to return a new number and then that new number will
-      * be the next seed to be runs through the same function and so on
-      *
-      * As the name implies it will be infinite loop unless we give it a limit in this case the numPage it needs to run
-      * */
-      IntStream.iterate(0, i -> i + pageSize)
-              .mapToObj(i -> String.format("%d. %s", i + 1, companies.get(i)))
-              .limit(numPages + 1) //<- this is the limit I put plus one since it limit < numPages not <= numPages!
+      companies.stream()
+              .peek(company -> System.out.println("=========>" + company))
+              .filter(company -> company.startsWith("N"))
               .forEach(System.out::println);
   }
 
