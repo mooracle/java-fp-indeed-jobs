@@ -38,49 +38,64 @@ public class App {
   private static void explore(List<Job> jobs) {
     // Your amazing code below... filtering using imperative (refactored to be a private method)
 
-      /*to change the String date format into recognizeable machine laguage we need to build a function that will runs
-      * a parser. More on this in the LocalDateTime javaDoc link in the README
+      /*[Entry 10: Closures]
+      * This is where all functions from previous session replaced with one functions that call the method
+      * createDateStringConverter.
+      *
+      * Okay there is a big Note here: in the method createDateStringConverter we are using the inFormatter and
+      * outFormatter which is an object of DateTimeFormatter which should be destroyed when it leaves the scope of the
+      * class. However, it still available later if there is an apply method needed them alter on. Remember this
+      * functions are lazy and it needs to be called out specifically. In the mean time they will be stored in what is
+      * called lexical scope not in the original method scope. This is what is called as closure.
+      *
+      * WARNING it only limited to returned function and all attributes that comes with it and it must be final. If in
+      * the method outside returned function we add another code that will give side effect of changing anything inside
+      * the returned function on the fly it will be rejected.
+      *
+      * Why would we create this kind of cumbersome method with it pure rules? Well it helps to create configured
+      * functions that can be stored in lexical scope and be called at anytime we needed them. Since these functions are
+      * lazy it will be faster and more efficient to prepare them before hand and store them in lexical storage
       * */
-      Function<String, LocalDateTime> indeedDateConverter =
-              dateString -> LocalDateTime.parse(
-                      dateString, DateTimeFormatter.RFC_1123_DATE_TIME);
+      Function<String,String> converter = createDateStringConverter(
+              DateTimeFormatter.RFC_1123_DATE_TIME,
+              DateTimeFormatter.ISO_DATE
+      );
 
-      /*This lambda dateString is fed as argument in lambda function to launch LocalDateTime.parse (static method)
-      * which does not need instantiation we can just use it as LocalDateTime.parse
-      * */
-
-      /*Now we need to build a function that will transform the format String of the Date and Time displayed at the
-      * Job data
-      *
-      * Remember the client asked for M / d / YY format the last time. Thus we will use the DateTimeFormatter method
-      * called .ofPattern (search more on this) to convert the date back into String using the intended pattern format:
-      * */
-      Function<LocalDateTime, String> siteDateStringConverter =
-              date -> date.format(DateTimeFormatter.ofPattern("M / d / YY"));
-
-      /*This time it is more on Function Composition
-      *
-      * We will make a Date format of the job data. The client want us to take this format M / d / YY.
-      * Let's see how the date is curently displayed: Mon, 13 Mar 2017 22:05:11 GMT
-      *
-      * In order to change that format we already preparing a Function object above to convert the String Time format
-      * to LocalDateFormat type of object. Thus we can just map it to Job. Remember the Lambda already defined in the
-      * Function indeedDateConverter above.
-      *
-      * Now that we already define a Function siteDateStringConverter we can map it to change the mapped Date and Time
-      * to produce String Date and Time as we intended. Since Function just like Predicate can be composed also thus we
-      * will use it.
-      *
-      * We need to utilize the andThen method to reduce the need of making too many map and make it a new separate
-      * Function!
-      * */
-      Function<String, String> indeedToSiteDateStringConverter = indeedDateConverter.andThen(siteDateStringConverter);
       jobs.stream()
               .map(Job::getDateTimeString)
-              .map(indeedToSiteDateStringConverter)
-              //.map(siteDateStringConverter)
+              .map(converter)
               .limit(5)
               .forEach(System.out::println);
+  }
+
+  /**
+   * [Entry 10: Closures]
+   *
+   * So we already able to create higher order function by passing a function as an argument. Another way to create
+   * one of this higher order function is to return a function from a method just like a commonly value.
+   *
+   * This approach allows us to produce and control functions from outside
+   *
+   * In this case we will continue the project of last parking slot higher function. Thus we want to take any date String
+   * process it and we produce another date String as return but we want to create that function on the fly not like
+   * previous session as an object in the exlplore method
+   *
+   * We still will use the date time formatter to helps us out. Let's make that method which will return a Function of
+   * String as an input and String as an output. Please note we will return the Function not the String of Date and Time
+   *
+   * This basically replaces the Functions used in the explore methods.
+   * */
+  public static Function<String, String> createDateStringConverter(
+          DateTimeFormatter inFormatter,
+          DateTimeFormatter outFormatter){
+      return dateString -> {
+          /*[Entry 10: Closures]
+          * This lambda function basically uses LocalDateTime.parse method to switch the String Date time input to
+          * LocalDateTime type object. Then it will re-format it into whatever format it wishes to use.
+          * This will replace all the functions in the explore method*/
+          return LocalDateTime.parse(dateString, inFormatter)
+                  .format(outFormatter);
+      };
   }
 
   /**

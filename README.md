@@ -82,8 +82,16 @@ as argument as stated in their declaration.
     3. Search term: open close principle of software design: classes should open for extenstion; close for modification
 4. Method Reference Inference: The concept of method reference which uses the instance of where the method is residing
 as the argument passed on in order for the method to run (see Entry 4 NOTE!)
-5. Lazy
+5. Lazy --> read number 7 and Entry 10: closure
 6. Functional Composition
     1. Learn more: [LocalDateTime JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html)
     2. Learn more: [DateTimeFormatter JavaDoc](https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html)
-    
+7. [Entry 10: Closures](https://teamtreehouse.com/library/closures-2)
+    1. Closure allows us to create a [lexical](https://www.google.co.id/search?q=lexical&oq=lexical&aqs=chrome..69i57&sourceid=chrome&ie=UTF-8)
+    scope for functions that will run later. Java handles things by making those values be "effectively" final.
+    2. Learn more: [Lambda Expression](https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html#accessing-local-variables)
+    from the official Java Tutorial.
+    3. Learn more: [Consumer Functional Interfaace Pro Workshop](https://teamtreehouse.com/library/consumer-functional-interface)
+    4. Learn more: [Composing Functions in Java Pro Workshop](https://teamtreehouse.com/library/composing-functions-in-java)
+    5. Learn more: [Optional Tips and Tricks Pro workshop](https://teamtreehouse.com/library/optionals-tips-and-tricks)
+    6. More also from [this talks](https://www.youtube.com/watch?v=1OpAgZvYXLQ)
